@@ -1,0 +1,235 @@
+pipeline {
+    agent{
+        label 'master'
+    }
+    triggers {
+        githubPush()
+    }
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '7'))
+        skipDefaultCheckout(true)
+        disableConcurrentBuilds()
+        timeout (time: 1, unit: 'MINUTES')
+        timestamps()
+    }
+    parameters {
+        string(name: 'BRANCH_NAME', defaultValue: 'main', description: '')
+    }
+    stages {
+        stage('Sanity Check') {
+            steps {
+                script{
+                   sanity_check() 
+                }
+            }
+        }
+        stage ('Checkout') {
+            steps {
+                dir("${WORKSPACE}/application") {
+                    checkout([
+                        $class: 'GitSCM',
+                        branches: [[name: "*/${params.BRANCH_NAME}"]],
+                        doGenerateSubmoduleConfigurations: false,
+                        extensions: [[$class: 'LocalBranch']],
+                        submoduleCfg: [],
+                        userRemoteConfigs: [[
+                        url: 'https://https://github.com/ikoyi2022/a1-weather-project.git',
+                        credentialsId: 'github-auth'
+                        ]]
+                    ])
+                }
+            }
+        }
+        stage('SonarQube Analysis') {
+            steps {
+                dir("${WORKSPACE}/application/code") {
+                    script {
+                        withSonarQubeEnv('SonarScanner') {
+                            sh "sonar-scanner"
+                        }
+                    }
+                }
+            }
+        }
+        stage('Building Auth') {
+            steps {
+                script {
+                    dir("${WORKSPACE}/application/code/auth") {
+                        sh """
+                            cat Dockerfile
+                            sudo docker images
+                        """
+                    }
+                }
+            }
+        }
+        stage('Building DB') {
+            steps {
+                script {
+                    dir("${WORKSPACE}/application/code/db") {
+                        sh """
+                            cat Dockerfile
+                            sudo docker images
+                        """
+                    }
+                }
+            }
+        }
+        stage('Building Redis') {
+            steps {
+                script {
+                    dir("${WORKSPACE}/application/code/redis") {
+                        sh """
+                            cat Dockerfile
+                            sudo docker images
+                        """
+                    }
+                }
+            }
+        }
+        stage('Building UI') {
+            steps {
+                script {
+                    dir("${WORKSPACE}/application/code/ui") {
+                        sh """
+                            cat Dockerfile
+                            sudo docker images
+                        """
+                    }
+                }
+            }
+        }
+        stage('Building Weather') {
+            steps {
+                script {
+                    dir("${WORKSPACE}/application/code/weather") {
+                        sh """
+                            cat Dockerfile
+                            sudo docker images
+                        """
+                    }
+                }
+            }
+        }
+        stage("Login Into Docker Hub"){
+             steps {
+              withCredentials([
+                usernamePassword(credentialsId: 'docker-hub-access', 
+                usernameVariable: 'DOCKER_HUB_USERNAME', 
+                passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
+                  sh """
+                    sudo docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD}
+                  """
+                  
+                }
+            }
+        }
+        stage('Pushing Auth') {
+            steps {
+                script {
+                    dir("${WORKSPACE}/application") {
+                        sh """
+                            sudo docker images
+                        """
+                    }
+                }
+            }
+        }
+        stage('Pushing DB') {
+            steps {
+                script {
+                    dir("${WORKSPACE}/application") {
+                        sh """
+                            sudo docker images
+                        """
+                    }
+                }
+            }
+        }
+        stage('Pushing Redis') {
+            steps {
+                script {
+                    dir("${WORKSPACE}/application") {
+                        sh """
+                            sudo docker images
+                        """
+                    }
+                }
+            }
+        }
+        stage('Pushing UI') {
+            steps {
+                script {
+                    dir("${WORKSPACE}/application") {
+                        sh """
+                            sudo docker images
+                        """
+                    }
+                }
+            }
+        }
+        stage('Pushing Weather') {
+            steps {
+                script {
+                    dir("${WORKSPACE}/application") {
+                        sh """
+                            sudo docker images
+                        """
+                    }
+                }
+            }
+        }
+        stage('Clean Up') {
+            steps {
+                script {
+                    dir("${WORKSPACE}/application") {
+                        sh """
+                            sudo rm -rf *
+                        """
+                    }
+                }
+            }
+        }
+    }
+    post {
+        success {
+            slackSend color: '#2EB67D',
+            channel: 'a1-session', 
+            message: "*Weather App Project Build Status*" +
+            "\n Project Name: Weather App" +
+            "\n Job Name: ${env.JOB_NAME}" +
+            "\n Build number: ${currentBuild.displayName}" +
+            "\n Build Status : *SUCCESS*" +
+            "\n Build url : ${env.BUILD_URL}"
+        }
+        failure {
+            slackSend color: '#E01E5A',
+            channel: 'a1-session',  
+            message: "*Weather App Project Build Status*" +
+            "\n Project Name: Weather App" +
+            "\n Job Name: ${env.JOB_NAME}" +
+            "\n Build number: ${currentBuild.displayName}" +
+            "\n Build Status : *FAILED*" +
+            "\n Action : Please check the console output to fix this job IMMEDIATELY" +
+            "\n Build url : ${env.BUILD_URL}"
+        }
+        unstable {
+            slackSend color: '#ECB22E',
+            channel: 'a1-session', 
+            message: "*Weather App Project Build Status*" +
+            "\n Project Name: Weather App" +
+            "\n Job Name: ${env.JOB_NAME}" +
+            "\n Build number: ${currentBuild.displayName}" +
+            "\n Build Status : *UNSTABLE*" +
+            "\n Action : Please check the console output to fix this job IMMEDIATELY" +
+            "\n Build url : ${env.BUILD_URL}"
+        }   
+    }
+}
+
+def sanity_check() {
+    if (params.BRANCH_NAME.isEmpty()){
+       echo "The parameter BRANCH_NAME is not set"
+       sh 'exit 2'
+   } 
+}
