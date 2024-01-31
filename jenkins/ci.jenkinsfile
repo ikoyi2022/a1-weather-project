@@ -6,7 +6,7 @@ pipeline {
     }
     options {
         buildDiscarder(logRotator(numToKeepStr: '7'))
-        skipDefaultCheckout(true)
+        // skipDefaultCheckout(true)
         disableConcurrentBuilds()
         timeout (time: 5, unit: 'MINUTES')
         timestamps()
@@ -44,7 +44,7 @@ pipeline {
                 dir("${WORKSPACE}/application/code") {
                     script {
                         withSonarQubeEnv('SonarScanner') {
-                           // sh "sonar-scanner"
+                            sh "sonar-scanner"
                         }
                     }
                 }
