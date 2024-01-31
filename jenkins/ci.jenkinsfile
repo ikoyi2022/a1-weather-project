@@ -32,7 +32,7 @@ pipeline {
                         extensions: [[$class: 'LocalBranch']],
                         submoduleCfg: [],
                         userRemoteConfigs: [[
-                        url: 'https://https://github.com/ikoyi2022/a1-weather-project.git',
+                        url: 'https://github.com/ikoyi2022/a1-weather-project.git',
                         credentialsId: 'github-auth'
                         ]]
                     ])
