@@ -53,7 +53,7 @@ pipeline {
         stage('Building Auth') {
             steps {
                 script {
-                    dir("${WORKSPACE}/application/code/auth") {
+                    dir("${WORKSPACE}/application/code/code/auth") {
                         sh """
                             cat Dockerfile
                             sudo docker images
@@ -65,7 +65,7 @@ pipeline {
         stage('Building DB') {
             steps {
                 script {
-                    dir("${WORKSPACE}/application/code/db") {
+                    dir("${WORKSPACE}/application/code/code/db") {
                         sh """
                             cat Dockerfile
                             sudo docker images
@@ -77,7 +77,7 @@ pipeline {
         stage('Building Redis') {
             steps {
                 script {
-                    dir("${WORKSPACE}/application/code/redis") {
+                    dir("${WORKSPACE}/application/code/code/redis") {
                         sh """
                             cat Dockerfile
                             sudo docker images
@@ -89,7 +89,7 @@ pipeline {
         stage('Building UI') {
             steps {
                 script {
-                    dir("${WORKSPACE}/application/code/ui") {
+                    dir("${WORKSPACE}/application/code/code/ui") {
                         sh """
                             cat Dockerfile
                             sudo docker images
@@ -101,7 +101,7 @@ pipeline {
         stage('Building Weather') {
             steps {
                 script {
-                    dir("${WORKSPACE}/application/code/weather") {
+                    dir("${WORKSPACE}/application/code/code/weather") {
                         sh """
                             cat Dockerfile
                             sudo docker images
