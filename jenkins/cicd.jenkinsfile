@@ -7,7 +7,7 @@ pipeline {
         DOCKER_HUB_REGISTRY = "ikoyi2022"
     }
     options {
-        buildDiscarder(logRotator(numToKeepStr: '7'))
+        buildDiscarder(logRotator(numToKeepStr: '8'))
         skipDefaultCheckout(true)
         disableConcurrentBuilds()
         timeout (time: 30, unit: 'MINUTES')
