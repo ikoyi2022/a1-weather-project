@@ -73,7 +73,7 @@ pipeline {
             agent any
             steps {
                 script {
-                    dir("${WORKSPACE}/application/code/code/auth") {
+                    dir("${WORKSPACE}/application/code/auth") {
                         sh """
                             sudo docker build -t ${env.DOCKER_HUB_REGISTRY}/auth-a1:${params.AUTH_IMAGE_VERSION} .
                         """
