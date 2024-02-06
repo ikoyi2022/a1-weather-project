@@ -69,12 +69,11 @@ pipeline {
             }
         }
         stage('SonarQube Analysis') {
-            agent any
             steps {
-                dir("${WORKSPACE}/application/code") {
+                dir("${WORKSPACE}/application/code/code") {
                     script {
                         withSonarQubeEnv('SonarScanner') {
-                            sh "sonar-scanner"
+                         sh "sonar-scanner"
                         }
                     }
                 }
