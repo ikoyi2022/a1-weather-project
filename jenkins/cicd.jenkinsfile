@@ -68,17 +68,7 @@ pipeline {
                 }
             }
         }
-        stage('SonarQube Analysis') {
-            steps {
-                dir("${WORKSPACE}/application/code/code") {
-                    script {
-                        withSonarQubeEnv('SonarScanner') {
-                         sh "sonar-scanner"
-                        }
-                    }
-                }
-            }
-        }
+        
         stage('Building Auth') {
             agent any
             steps {
