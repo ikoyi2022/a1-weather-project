@@ -71,7 +71,7 @@ pipeline {
         stage('SonarQube Analysis') {
             agent any
             steps {
-                dir("${WORKSPACE}/application/code/code") {
+                dir("${WORKSPACE}/application/code") {
                     script {
                         withSonarQubeEnv('SonarScanner') {
                             sh "sonar-scanner"
