@@ -21,14 +21,14 @@ enable_dns_support               = true
 enable_dns_hostnames             = true
 assign_generated_ipv6_cidr_block = false
 
-cluster_name = "2560-dev-del"
+cluster_name = "1759-dev-A1"
 
 common_tags = {
-  "id"             = "2560"
-  "owner"          = "DevOps Easy Learning"
-  "teams"          = "DEL"
+  "id"             = "1759"
+  "owner"          = "Ikoyi"
+  "teams"          = "WFT"
   "environment"    = "dev"
-  "project"        = "del"
+  "project"        = "A1"
   "create_by"      = "Terraform"
   "cloud_provider" = "aws"
 }

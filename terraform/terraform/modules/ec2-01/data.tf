@@ -27,7 +27,7 @@
 #         } 
 #         most_recent = true 
 #         } 
-        
+
 #        # Define the EC2 instance resource 
 #        resource "aws_instance" "web_server" { 
 #         ami = data.aws_ami.latest_ubuntu.id 

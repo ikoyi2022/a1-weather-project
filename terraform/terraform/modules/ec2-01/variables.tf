@@ -39,6 +39,11 @@ variable "instance_name" {
   default = "test"
 }
 
+variable "ami" {
+  type    = string
+  default = "ami-06aa3f7caf3a30282"
+}
+
 variable "vpc_security_group_ids" {
   type    = list(string)
   default = ["sg-03b308455c6fef899"]
@@ -67,11 +72,11 @@ variable "allowed_ports" {
 variable "tags" {
   type = map(any)
   default = {
-    "id"             = "2560"
-    "owner"          = "DevOps Easy Learning"
-    "teams"          = "DEL"
+    "id"             = "1759"
+    "owner"          = "Ikoyi"
+    "teams"          = "WFT"
     "environment"    = "dev"
-    "project"        = "del"
+    "project"        = "A1"
     "create_by"      = "Terraform"
     "cloud_provider" = "aws"
   }

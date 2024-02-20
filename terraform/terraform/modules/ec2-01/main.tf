@@ -3,7 +3,7 @@ locals {
 }
 
 resource "aws_instance" "vm" {
-  ami                     = local.selected_ami != "" ? local.selected_ami : "ami-06aa3f7caf3a30282"
+  ami                     = local.selected_ami != "" ? local.selected_ami : var.ami
   instance_type           = var.ec2_instance_type
   key_name                = var.ec2_instance_key_name
   vpc_security_group_ids  = [var.vpc_security_group_ids[0]]

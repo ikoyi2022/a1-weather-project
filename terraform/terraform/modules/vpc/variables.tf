@@ -5,11 +5,11 @@ variable "aws_region" {
 variable "common_tags" {
   type = map(any)
   default = {
-    "id"             = "2560"
-    "owner"          = "DevOps Easy Learning"
-    "teams"          = "DEL"
+    "id"             = "1759"
+    "owner"          = "Ikoyi"
+    "teams"          = "WFT"
     "environment"    = "dev"
-    "project"        = "del"
+    "project"        = "A1"
     "create_by"      = "Terraform"
     "cloud_provider" = "aws"
   }

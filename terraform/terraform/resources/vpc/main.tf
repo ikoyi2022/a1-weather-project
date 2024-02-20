@@ -44,11 +44,11 @@ locals {
   enable_dns_support               = true
   enable_dns_hostnames             = true
   assign_generated_ipv6_cidr_block = false
-  cluster_name                     = "2560-dev-del"
+  cluster_name                     = "1759-dev-A1"
 }
 
 module "vpc" {
-  source = "../../modules/vpc/"
+  source                           = "../../modules/vpc/"
   aws_region                       = local.aws_region
   cidr_block                       = local.cidr_block
   public-subnet-cidr               = local.public-subnet-cidr
