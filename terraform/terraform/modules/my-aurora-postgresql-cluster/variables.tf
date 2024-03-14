@@ -33,11 +33,11 @@ variable "master_username" {
   type        = string
 }
 
-variable "master_password" {
-  description = "The password for the master user."
-  type        = string
-  sensitive   = true
-}
+# variable "master_password" {
+#   description = "The password for the master user."
+#   type        = string
+#   sensitive   = true
+# }
 
 variable "backup_retention_period" {
   description = "The number of days during which automatic DB snapshots are retained."

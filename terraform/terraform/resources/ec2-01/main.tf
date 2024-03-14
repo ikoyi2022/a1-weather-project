@@ -12,14 +12,14 @@ provider "aws" {
   region = local.aws_region
 }
 
-# terraform {
-#   backend "s3" {
-#     bucket         = ""
-#     dynamodb_table = ""
-#     key            = ""
-#     region         = ""
-#   }
-# }
+terraform {
+  backend "s3" {
+    bucket         = "development-beta-tf-state"
+    dynamodb_table = "development-beta-tf-state-lock"
+    key            = "bastion"
+    region         = "us-east-1"
+  }
+}
 
 data "aws_ami" "latest_ubuntu" {
   most_recent = true
@@ -63,7 +63,8 @@ locals {
 
 
 module "ec2-01" {
-  source                        = "../../modules/ec2-01"
+  source = "git::git@github.com:ikoyi2022/a1-weather-project.git//terraform/terraform/modules/ec2-01?ref=main"
+
   aws_region                    = local.aws_region
   distribution                  = local.distribution
   ec2_instance_type             = local.ec2_instance_type
@@ -77,5 +78,6 @@ module "ec2-01" {
   allowed_ports                 = local.allowed_ports
   tags                          = local.tags
 }
+
 
 

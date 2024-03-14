@@ -28,13 +28,19 @@ resource "aws_rds_cluster_parameter_group" "my-rds-cluster-parameter-group" {
   description = "Cluster parameter group"
 }
 
+data "aws_secretsmanager_secret_version" "master_password" {
+  secret_id = "master/password/postgresql"
+}
+
+
+
 resource "aws_rds_cluster" "my-aurora-cluster" {
   cluster_identifier              = var.cluster_identifier
   engine                          = "aurora-postgresql"
   engine_version                  = var.engine_version
   database_name                   = var.database_name
   master_username                 = var.master_username
-  master_password                 = var.master_password
+  master_password                 = data.aws_secretsmanager_secret_version.master_password.secret_string
   db_subnet_group_name            = aws_db_subnet_group.my-rds-subnet_group.name
   vpc_security_group_ids          = [aws_security_group.my-rds_sg.id]
   db_cluster_parameter_group_name = aws_rds_cluster_parameter_group.my-rds-cluster-parameter-group.name
@@ -72,3 +78,4 @@ resource "aws_rds_cluster_instance" "my-cluster_instances" {
     Name = "wftltd-${count.index + 1}"
   }
 }
+

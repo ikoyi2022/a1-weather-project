@@ -15,14 +15,14 @@ variable "env_type" {
 
 variable "project_name" {
   type    = string
-  default = "alpha"
+  default = "beta"
 }
 
 variable "common_tags" {
   type = map(any)
   default = {
-    "AssetID"       = "6258",
-    "AssetName"     = "ALPHA",
+    "AssetID"       = "1759",
+    "AssetName"     = "BETA",
     "AssetAreaName" = "Terraform",
     "ControlledBy"  = "Terraform"
   }

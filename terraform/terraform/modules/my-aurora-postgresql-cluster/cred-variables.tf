@@ -36,3 +36,18 @@
 # }
 
 ###Users can set these environment variables in their shell before running Terraform commands.
+
+# $ aws secretsmanager get-secret-value --secret-id master/password/postgresql
+# {   
+#     "ARN": "arn:aws:secretsmanager:us-east-1:982331145891:secret:master/password/postgresql-9vO1Wa",
+#     "Name": "master/password/postgresql",
+#     "VersionId": "ad3327f7-70b9-45cd-84b8-c682839004e1",
+#     "SecretString": "{\"master_password\":\"password\"}",
+#     "VersionStages": [
+#         "AWSCURRENT"
+#     ],
+#     "CreatedDate": 1709760245.857
+# }
+
+
+
